@@ -50,6 +50,7 @@ class GoodLegalDesktop extends HTMLElement {
     this._initBilling();
     this._initDonna();
     this._initKonami();
+    this._initLogin();
     this._applyPaidUser();
   }
 
@@ -627,7 +628,7 @@ class GoodLegalDesktop extends HTMLElement {
         </div>
         <div id="taskbar-right">
           <a href="https://www.goodlegal.fr/a-propos" class="taskbar-link" target="_top">A propos</a>
-          <a href="https://www.goodlegal.fr/" class="taskbar-link" target="_top">Se connecter</a>
+          <a class="taskbar-link" id="login-btn" style="cursor:pointer">Se connecter</a>
           <a href="https://www.goodlegal.fr/plans-pricing" class="taskbar-link highlight" id="taskbar-pricing" target="_top">Passer en illimite</a>
           <div id="clock">--:--</div>
         </div>
@@ -1028,6 +1029,16 @@ class GoodLegalDesktop extends HTMLElement {
         this._donnaClickTimer = setTimeout(() => { this._donnaClickTimer = null; }, 400);
       }
     });
+  }
+
+  _initLogin() {
+    const loginBtn = this._$('#login-btn');
+    if (loginBtn) {
+      loginBtn.addEventListener('click', () => {
+        // Dispatch a custom event that Wix Velo page code can listen for
+        this.dispatchEvent(new CustomEvent('login-click', { bubbles: true, composed: true }));
+      });
+    }
   }
 
   _initKonami() {
