@@ -13,7 +13,7 @@
 class GoodLegalDesktop extends HTMLElement {
 
   static get observedAttributes() {
-    return ['paid-user'];
+    return ['paid-user', 'user-name'];
   }
 
   constructor() {
@@ -58,6 +58,9 @@ class GoodLegalDesktop extends HTMLElement {
     if (name === 'paid-user') {
       this._applyPaidUser();
     }
+    if (name === 'user-name') {
+      this._applyUserName(newVal);
+    }
   }
 
   _applyPaidUser() {
@@ -65,6 +68,20 @@ class GoodLegalDesktop extends HTMLElement {
     const host = this.shadowRoot.querySelector('#gl-host');
     if (host) {
       host.classList.toggle('paid-user', isPaid);
+    }
+  }
+
+  _applyUserName(name) {
+    const loginBtn = this.shadowRoot.querySelector('#login-btn');
+    if (!loginBtn) return;
+    if (name) {
+      loginBtn.textContent = name;
+      loginBtn.style.cursor = 'default';
+      loginBtn.removeAttribute('id');
+    } else {
+      loginBtn.textContent = 'Se connecter';
+      loginBtn.style.cursor = 'pointer';
+      loginBtn.setAttribute('id', 'login-btn');
     }
   }
 
@@ -1035,8 +1052,7 @@ class GoodLegalDesktop extends HTMLElement {
     const loginBtn = this._$('#login-btn');
     if (loginBtn) {
       loginBtn.addEventListener('click', () => {
-        // Navigate to Wix's Members login page
-        window.location.href = '/account/login';
+        this.dispatchEvent(new CustomEvent('login-click'));
       });
     }
   }
