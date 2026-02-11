@@ -1035,8 +1035,8 @@ class GoodLegalDesktop extends HTMLElement {
     const loginBtn = this._$('#login-btn');
     if (loginBtn) {
       loginBtn.addEventListener('click', () => {
-        // Dispatch a custom event that Wix Velo page code can listen for
-        this.dispatchEvent(new CustomEvent('login-click', { bubbles: true, composed: true }));
+        // Navigate to Wix's Members login page
+        window.location.href = '/account/login';
       });
     }
   }
