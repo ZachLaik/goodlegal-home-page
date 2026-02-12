@@ -198,22 +198,13 @@ class GoodLegalDesktop extends HTMLElement {
     }
     @keyframes bgShift { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
 
-    /* ===== WELCOME HEADER ===== */
-    #welcome-header {
-      position: relative; z-index: 2;
-      margin-bottom: 8px;
-      display: flex; align-items: baseline; justify-content: space-between;
-      opacity: 0;
-    }
-    #welcome-header.revealed { opacity: 1; transition: opacity 0.6s ease 0.3s; }
-    #welcome-header h1 {
-      font-family: 'VT323', monospace; font-size: 32px; color: #0B1C4D; letter-spacing: 1px;
-    }
+    /* ===== WELCOME HEADER (removed) ===== */
+    #welcome-header { display: none; }
 
     /* ===== MAIN LAYOUT ===== */
     #desktop-layout {
       position: relative; z-index: 1;
-      height: calc(100% - 50px);
+      height: 100%;
     }
     .icon-group { position: absolute; }
 
@@ -243,9 +234,9 @@ class GoodLegalDesktop extends HTMLElement {
     }
 
     .section-label {
-      font-family: 'VT323', monospace; font-size: 15px; color: #0B1C4D;
+      font-family: 'VT323', monospace; font-size: 17px; color: #0B1C4D;
       opacity: 0.35; letter-spacing: 2px; text-transform: uppercase;
-      margin-bottom: 4px; margin-left: 4px;
+      margin-bottom: 6px; margin-left: 4px;
     }
 
     .desktop-icon {
@@ -253,7 +244,7 @@ class GoodLegalDesktop extends HTMLElement {
       padding: 6px 6px 4px; border-radius: 8px; cursor: pointer; text-decoration: none;
       color: #0B1C4D; position: relative;
       transition: transform 0.15s ease, background 0.15s ease;
-      border: 1px solid transparent; width: 130px; flex-shrink: 0;
+      border: 1px solid transparent; width: 140px; flex-shrink: 0;
       opacity: 0; transform: translateY(10px);
     }
     .desktop-icon.revealed {
@@ -265,16 +256,16 @@ class GoodLegalDesktop extends HTMLElement {
     .desktop-icon.selected { background: rgba(78, 205, 196, 0.15); border-color: rgba(78, 205, 196, 0.3); }
 
     .icon-img {
-      width: 68px; height: 68px; display: flex; align-items: center; justify-content: center;
-      font-size: 48px; margin-bottom: 4px; position: relative;
+      width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;
+      font-size: 54px; margin-bottom: 6px; position: relative;
     }
     .icon-img::after {
       content: ''; position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%);
       width: 44px; height: 6px; background: rgba(11, 28, 77, 0.07); border-radius: 50%;
     }
     .icon-label {
-      font-family: 'Space Mono', monospace; font-size: 11px; text-align: center;
-      line-height: 1.3; max-width: 120px; word-wrap: break-word; color: #0B1C4D;
+      font-family: 'Space Mono', monospace; font-size: 13px; text-align: center;
+      line-height: 1.3; max-width: 130px; word-wrap: break-word; color: #0B1C4D;
       text-shadow: 0 1px 2px rgba(242, 250, 249, 0.8);
     }
     .icon-badge {
@@ -474,7 +465,12 @@ class GoodLegalDesktop extends HTMLElement {
 
     /* ===== RESPONSIVE — MOBILE (Phone OS style) ===== */
     @media (max-width: 900px) {
-      #gl-host { overflow: auto; height: auto; background: #0B1C4D; }
+      :host {
+        height: auto;
+        max-height: none;
+        overflow: visible;
+      }
+      #gl-host { overflow: auto; height: auto; min-height: 100vh; background: #0B1C4D; }
 
       #taskbar {
         height: 44px; padding: 0 16px;
@@ -498,8 +494,8 @@ class GoodLegalDesktop extends HTMLElement {
       .account-dropdown-item { font-size: 11px; padding: 7px 12px; }
 
       #desktop {
-        height: auto; min-height: calc(100vh - 44px - 80px);
-        overflow: visible; padding: 8px 20px 24px;
+        height: auto; min-height: auto;
+        overflow: visible; padding: 12px 16px 24px;
         background: linear-gradient(170deg, #0B1C4D 0%, #0d2460 40%, #142d6b 100%);
       }
       #desktop::before {
@@ -508,13 +504,12 @@ class GoodLegalDesktop extends HTMLElement {
           radial-gradient(circle at 70% 70%, rgba(212, 210, 0, 0.05) 0%, transparent 40%);
       }
 
-      #welcome-header { margin-bottom: 16px; text-align: center; justify-content: center; }
-      #welcome-header h1 { font-size: 18px; color: rgba(255,255,255,0.9); letter-spacing: 2px; }
+      #welcome-header { display: none; }
 
       #desktop-layout {
         height: auto !important;
         position: static !important;
-        display: flex !important; flex-direction: column !important; gap: 20px;
+        display: flex !important; flex-direction: column !important; gap: 24px;
       }
 
       .icon-group,
@@ -524,20 +519,22 @@ class GoodLegalDesktop extends HTMLElement {
         position: static !important;
         height: auto !important;
         display: grid !important;
-        grid-template-columns: repeat(4, 1fr) !important;
-        gap: 16px 8px !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 20px 12px !important;
         justify-items: center;
+        align-items: start;
+        max-width: 100%;
       }
 
       .section-label {
         grid-column: 1 / -1;
         width: auto; text-align: center;
-        font-size: 11px; color: rgba(255,255,255,0.35);
-        margin: 0; letter-spacing: 3px;
+        font-size: 12px; color: rgba(255,255,255,0.35);
+        margin: 0 0 4px 0; letter-spacing: 3px;
       }
 
       .desktop-icon {
-        width: 72px !important; padding: 0 !important;
+        width: 90px !important; padding: 4px !important;
         border: none !important; border-radius: 0 !important;
         background: transparent !important; flex-shrink: 0;
         display: flex; flex-direction: column; align-items: center;
@@ -547,7 +544,7 @@ class GoodLegalDesktop extends HTMLElement {
       .desktop-icon:active { transform: scale(0.9) !important; background: transparent !important; }
 
       .icon-img {
-        width: 56px; height: 56px; font-size: 32px;
+        width: 62px; height: 62px; font-size: 36px;
         background: rgba(255,255,255,0.12);
         border-radius: 16px;
         backdrop-filter: blur(10px);
@@ -556,13 +553,13 @@ class GoodLegalDesktop extends HTMLElement {
       .icon-img::after { display: none; }
 
       .icon-label {
-        font-size: 10px; max-width: 72px; line-height: 1.2;
+        font-size: 11px; max-width: 88px; line-height: 1.2;
         color: rgba(255,255,255,0.85); text-shadow: 0 1px 3px rgba(0,0,0,0.5);
         font-family: 'Inter', sans-serif; font-weight: 500;
       }
 
       .icon-badge {
-        font-size: 8px; padding: 1px 4px; top: -2px; right: 2px;
+        font-size: 9px; padding: 1px 5px; top: -2px; right: 2px;
         border-radius: 6px; z-index: 2;
       }
 
@@ -573,7 +570,7 @@ class GoodLegalDesktop extends HTMLElement {
         height: auto; padding: 0;
         background: transparent; border-top: none;
         flex-direction: column; align-items: center; gap: 0;
-        position: sticky; bottom: 0; z-index: 100;
+        position: relative; z-index: 100;
       }
 
       #donna-btn {
@@ -637,11 +634,17 @@ class GoodLegalDesktop extends HTMLElement {
     }
 
     @media (max-width: 380px) {
-      #desktop { padding: 6px 12px 16px; }
-      #welcome-header h1 { font-size: 16px; }
-      .icon-img { width: 50px; height: 50px; font-size: 28px; border-radius: 14px; }
-      .desktop-icon { width: 66px !important; }
-      .icon-label { font-size: 9px; max-width: 66px; }
+      #desktop { padding: 8px 12px 16px; }
+      .icon-group,
+      #student-group,
+      #analytics-group,
+      #pro-group {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 16px 8px !important;
+      }
+      .icon-img { width: 54px; height: 54px; font-size: 30px; border-radius: 14px; }
+      .desktop-icon { width: 78px !important; }
+      .icon-label { font-size: 10px; max-width: 76px; }
       .taskbar-link.highlight { font-size: 10px; padding: 3px 8px; }
     }
     `;
@@ -655,10 +658,10 @@ class GoodLegalDesktop extends HTMLElement {
       <div id="boot-screen">
         <div id="boot-logo">GOOD<span>LEGAL</span></div>
         <div id="boot-text">
-          <div class="line">Initialisation du systeme juridique...</div>
-          <div class="line">Chargement des codes : Civil, Penal, Commerce... OK</div>
+          <div class="line">Initialisation du système juridique...</div>
+          <div class="line">Chargement des codes : Civil, Pénal, Commerce... OK</div>
           <div class="line">Connexion base jurisprudence... OK</div>
-          <div class="line">Verification IA Donna... OK</div>
+          <div class="line">Vérification IA Donna... OK</div>
           <div class="line">Chargement modules MCP... OK</div>
           <div class="line">Montage API GoodLegal v3.2... OK</div>
           <div class="line">&nbsp;</div>
@@ -678,7 +681,7 @@ class GoodLegalDesktop extends HTMLElement {
           <span class="taskbar-status">Bureau juridique</span>
         </div>
         <div id="taskbar-right">
-          <a href="https://www.goodlegal.fr/a-propos" class="taskbar-link" target="_top">A propos</a>
+          <a href="https://www.goodlegal.fr/a-propos" class="taskbar-link" target="_top">À propos</a>
           <a class="taskbar-link" id="login-btn" style="cursor:pointer">Se connecter</a>
           <div id="account-menu-wrapper" style="display:none">
             <button id="account-btn"><span id="account-name"></span> <span class="account-arrow">&#9660;</span></button>
@@ -686,10 +689,10 @@ class GoodLegalDesktop extends HTMLElement {
               <a class="account-dropdown-item" href="https://www.goodlegal.fr/account/my-account" target="_top"><span class="item-icon">&#128100;</span> Mon compte</a>
               <a class="account-dropdown-item" href="https://www.goodlegal.fr/account/my-subscriptions" target="_top"><span class="item-icon">&#128179;</span> Mes Abonnements</a>
               <div class="account-dropdown-sep"></div>
-              <a class="account-dropdown-item" id="logout-btn" style="cursor:pointer"><span class="item-icon">&#128682;</span> Se deconnecter</a>
+              <a class="account-dropdown-item" id="logout-btn" style="cursor:pointer"><span class="item-icon">&#128682;</span> Se déconnecter</a>
             </div>
           </div>
-          <a href="https://www.goodlegal.fr/plans-pricing" class="taskbar-link highlight" id="taskbar-pricing" target="_top">Passer en illimite</a>
+          <a href="https://www.goodlegal.fr/plans-pricing" class="taskbar-link highlight" id="taskbar-pricing" target="_top">Passer en illimité</a>
           <div id="clock">--:--</div>
         </div>
       </div>
@@ -701,11 +704,11 @@ class GoodLegalDesktop extends HTMLElement {
           <div class="user-name">GoodLegal</div>
         </div>
         <div class="start-menu-items">
-          <a class="start-menu-item" href="https://www.goodlegal.fr/a-propos" target="_top"><span class="item-icon">&#8505;&#65039;</span> A propos</a>
-          <a class="start-menu-item" href="https://api.goodlegal.fr/dashboard/" target="_top"><span class="item-icon">&#128104;&#8205;&#128187;</span> Acces developpeurs</a>
-          <a class="start-menu-item" href="https://www.goodlegal.fr/plans-pricing" target="_top"><span class="item-icon">&#128142;</span> Passer en illimite</a>
+          <a class="start-menu-item" href="https://www.goodlegal.fr/a-propos" target="_top"><span class="item-icon">&#8505;&#65039;</span> À propos</a>
+          <a class="start-menu-item" href="https://api.goodlegal.fr/dashboard/" target="_top"><span class="item-icon">&#128104;&#8205;&#128187;</span> Accès développeurs</a>
+          <a class="start-menu-item" href="https://www.goodlegal.fr/plans-pricing" target="_top"><span class="item-icon">&#128142;</span> Passer en illimité</a>
           <div class="start-menu-sep"></div>
-          <a class="start-menu-item" href="https://www.goodlegal.fr/mentionslegales" target="_top"><span class="item-icon">&#128203;</span> Mentions legales</a>
+          <a class="start-menu-item" href="https://www.goodlegal.fr/mentionslegales" target="_top"><span class="item-icon">&#128203;</span> Mentions légales</a>
         </div>
       </div>
 
@@ -721,29 +724,29 @@ class GoodLegalDesktop extends HTMLElement {
         <div id="desktop-layout">
           <!-- STUDENT TOOLS -->
           <div class="icon-group" id="student-group">
-            <div class="section-label">&#128218; Outils Etudiants</div>
-            <a class="desktop-icon" href="https://www.goodlegal.fr/g%C3%A9n%C3%A9rateur-de-fiches-d-arr%C3%AAt" data-tip="Generez vos fiches d'arret en un clic" target="_blank">
+            <div class="section-label">&#128218; Outils Étudiants</div>
+            <a class="desktop-icon" href="https://www.goodlegal.fr/g%C3%A9n%C3%A9rateur-de-fiches-d-arr%C3%AAt" data-tip="Générez vos fiches d'arrêt en un clic" target="_blank">
               <span class="icon-badge badge-free">GRATUIT</span>
               <div class="icon-img">&#128221;</div>
-              <div class="icon-label">Generateur Fiches d'arret</div>
+              <div class="icon-label">Générateur Fiches d'arrêt</div>
             </a>
-            <a class="desktop-icon" href="https://www.goodlegal.fr/cas-pratiques" data-tip="Resolvez vos cas pratiques" target="_blank">
+            <a class="desktop-icon" href="https://www.goodlegal.fr/cas-pratiques" data-tip="Résolvez vos cas pratiques" target="_blank">
               <div class="icon-img">&#128194;</div>
               <div class="icon-label">Cas Pratiques</div>
             </a>
-            <a class="desktop-icon" href="https://sourceverifier.legalabs.ai/resume-document" data-tip="Synthetisez vos documents juridiques" target="_blank">
+            <a class="desktop-icon" href="https://sourceverifier.legalabs.ai/resume-document" data-tip="Synthétisez vos documents juridiques" target="_blank">
               <div class="icon-img">&#129514;</div>
-              <div class="icon-label">Synthetiseur de docs</div>
+              <div class="icon-label">Synthétiseur de docs</div>
             </a>
-            <a class="desktop-icon" href="https://www.goodlegal.fr/fiches-de-revision" data-tip="Revisez efficacement" target="_blank">
+            <a class="desktop-icon" href="https://www.goodlegal.fr/fiches-de-revision" data-tip="Révisez efficacement" target="_blank">
               <div class="icon-img">&#129299;</div>
-              <div class="icon-label">Fiches de revision</div>
+              <div class="icon-label">Fiches de révision</div>
             </a>
-            <a class="desktop-icon" href="https://www.goodlegal.fr/commentaires-d-arret" data-tip="Commentez les arrets comme un pro" target="_blank">
+            <a class="desktop-icon" href="https://www.goodlegal.fr/commentaires-d-arret" data-tip="Commentez les arrêts comme un pro" target="_blank">
               <div class="icon-img">&#128212;</div>
-              <div class="icon-label">Commentaires d'arret</div>
+              <div class="icon-label">Commentaires d'arrêt</div>
             </a>
-            <a class="desktop-icon" href="https://www.goodlegal.fr/dissertation-juridique" data-tip="Dissertations juridiques assistees" target="_blank">
+            <a class="desktop-icon" href="https://www.goodlegal.fr/dissertation-juridique" data-tip="Dissertations juridiques assistées" target="_blank">
               <div class="icon-img">&#11088;</div>
               <div class="icon-label">Dissertations</div>
             </a>
@@ -752,9 +755,9 @@ class GoodLegalDesktop extends HTMLElement {
               <div class="icon-img">&#128218;</div>
               <div class="icon-label">Toutes les Fiches</div>
             </a>
-            <a class="desktop-icon" href="https://sourceverifier.legalabs.ai/trouver-sources" data-tip="Verifiez vos sources juridiques" target="_blank">
+            <a class="desktop-icon" href="https://sourceverifier.legalabs.ai/trouver-sources" data-tip="Vérifiez vos sources juridiques" target="_blank">
               <div class="icon-img">&#129488;</div>
-              <div class="icon-label">Verification Sources</div>
+              <div class="icon-label">Vérification Sources</div>
             </a>
             <a class="desktop-icon" href="https://sourceverifier.legalabs.ai/modifier-document" data-tip="Modifiez vos documents juridiques" target="_blank">
               <div class="icon-img">&#128195;</div>
@@ -765,17 +768,17 @@ class GoodLegalDesktop extends HTMLElement {
           <!-- DATA & ANALYTICS -->
           <div class="icon-group" id="analytics-group">
             <div class="section-label">&#128202; Data & Analytics</div>
-            <a class="desktop-icon" href="https://stats.goodlegal.fr/analytics" data-tip="Statistiques et analyses jurimetriques" target="_blank">
+            <a class="desktop-icon" href="https://stats.goodlegal.fr/analytics" data-tip="Statistiques et analyses jurimétriques" target="_blank">
               <span class="icon-badge badge-free">GRATUIT</span>
               <div class="icon-img">&#9878;&#65039;</div>
-              <div class="icon-label">Jurimetrie</div>
+              <div class="icon-label">Jurimétrie</div>
             </a>
-            <a class="desktop-icon" href="https://stats.goodlegal.fr/rankings" data-tip="Classements des decisions" target="_blank">
+            <a class="desktop-icon" href="https://stats.goodlegal.fr/rankings" data-tip="Classements des décisions" target="_blank">
               <span class="icon-badge badge-free">GRATUIT</span>
               <div class="icon-img">&#129351;</div>
               <div class="icon-label">Classements</div>
             </a>
-            <a class="desktop-icon" href="https://eugraph.eu/?celex=32016R0679&lang=FR" data-tip="Explorez le droit europeen en graphe" target="_blank">
+            <a class="desktop-icon" href="https://eugraph.eu/?celex=32016R0679&lang=FR" data-tip="Explorez le droit européen en graphe" target="_blank">
               <span class="icon-badge badge-free">GRATUIT</span>
               <div class="icon-img">&#127466;&#127482;</div>
               <div class="icon-label">EU Graph</div>
@@ -786,12 +789,12 @@ class GoodLegalDesktop extends HTMLElement {
           <div class="icon-group" id="pro-group">
             <div class="section-label" style="text-align:right;">&#128295; Outils Pro</div>
             <div id="pro-icons">
-              <a class="desktop-icon" href="https://www.goodlegal.fr/" data-tip="Connectez GoodLegal a Claude, Cursor, ChatGPT..." target="_blank">
+              <a class="desktop-icon" href="https://www.goodlegal.fr/" data-tip="Connectez GoodLegal à Claude, Cursor, ChatGPT..." target="_blank">
                 <span class="icon-badge badge-pro">PRO</span>
                 <div class="icon-img">&#128268;</div>
                 <div class="icon-label">MCP</div>
               </a>
-              <a class="desktop-icon" href="https://api.goodlegal.fr" data-tip="API RESTful pour developpeurs" target="_blank">
+              <a class="desktop-icon" href="https://api.goodlegal.fr" data-tip="API RESTful pour développeurs" target="_blank">
                 <span class="icon-badge badge-pro">PRO</span>
                 <div class="icon-img">&#128273;</div>
                 <div class="icon-label">API</div>
@@ -808,9 +811,9 @@ class GoodLegalDesktop extends HTMLElement {
           </div>
           <div id="welcome-body">
             <h2>Bienvenue chez GoodLegal!</h2>
-            <p>Votre bureau juridique numerique. Tous vos outils, un seul endroit.</p>
-            <p>Double-cliquez sur une icone pour commencer.</p>
-            <div class="welcome-hint">Astuce : Rajoutez le MCP dans votre IA preferee pour acceder au datagraphe — 3 millions de fiches d'arret, 15 millions de liens.</div>
+            <p>Votre bureau juridique numérique. Tous vos outils, un seul endroit.</p>
+            <p>Double-cliquez sur une icône pour commencer.</p>
+            <div class="welcome-hint">Astuce : Rajoutez le MCP dans votre IA préférée pour accéder au datagraphe — 3 millions de fiches d'arrêt, 15 millions de liens.</div>
           </div>
         </div>
       </div>
@@ -818,9 +821,9 @@ class GoodLegalDesktop extends HTMLElement {
       <!-- BOTTOM BAR -->
       <div id="bottombar">
         <div id="bottombar-left">
-          <a href="https://www.goodlegal.fr/mentionslegales" class="bottombar-link" target="_top">Mentions legales</a>
-          <a href="https://api.goodlegal.fr/dashboard/" class="bottombar-link" target="_top">Acces developpeurs</a>
-          <a href="https://www.goodlegal.fr/a-propos" class="bottombar-link" target="_top">A propos</a>
+          <a href="https://www.goodlegal.fr/mentionslegales" class="bottombar-link" target="_top">Mentions légales</a>
+          <a href="https://api.goodlegal.fr/dashboard/" class="bottombar-link" target="_top">Accès développeurs</a>
+          <a href="https://www.goodlegal.fr/a-propos" class="bottombar-link" target="_top">À propos</a>
           <span class="bottombar-sep">&middot;</span>
           <a href="https://www.linkedin.com/in/zacharie-la%C3%AFk-09535aab/" class="bottombar-link signature-link" target="_blank">For law with love - Zach</a>
         </div>
@@ -848,10 +851,10 @@ class GoodLegalDesktop extends HTMLElement {
 
       <!-- BILLING POPUP -->
       <div id="billing-popup">
-        <div class="bp-title">&#9201; Temps facture</div>
+        <div class="bp-title">&#9201; Temps facturé</div>
         <div class="bp-rate">Taux horaire: 500 EUR/h</div>
         <div class="bp-amount" id="billing-amount">0,00 EUR</div>
-        <div class="bp-joke" id="billing-joke">Cliquez pour commencer a facturer.</div>
+        <div class="bp-joke" id="billing-joke">Cliquez pour commencer à facturer.</div>
       </div>
     </div>
     `;
@@ -1034,11 +1037,11 @@ class GoodLegalDesktop extends HTMLElement {
     const popup = this._$('#billing-popup');
     const jokes = [
       "Harvey Specter approuve.",
-      "Le temps c'est de l'argent... surtout le votre.",
-      "Un bon avocat facture meme ses pauses cafe.",
+      "Le temps c'est de l'argent... surtout le vôtre.",
+      "Un bon avocat facture même ses pauses café.",
       "Vous venez de gagner le prix d'un croissant.",
-      "Objet: Etude approfondie (vrai: pause dej).",
-      "A ce rythme, offrez-vous un stylo Montblanc.",
+      "Objet: Étude approfondie (vrai: pause déj).",
+      "À ce rythme, offrez-vous un stylo Montblanc.",
       "Votre taux horaire > salaire annuel d'un stagiaire.",
     ];
 
