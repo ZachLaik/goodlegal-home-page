@@ -72,16 +72,18 @@ class GoodLegalDesktop extends HTMLElement {
   }
 
   _applyUserName(name) {
-    const loginBtn = this.shadowRoot.querySelector('#login-btn');
-    if (!loginBtn) return;
+    const loginBtn = this._$('#login-btn');
+    const accountWrapper = this._$('#account-menu-wrapper');
+    const accountName = this._$('#account-name');
     if (name) {
-      loginBtn.textContent = name;
-      loginBtn.style.cursor = 'default';
-      loginBtn.removeAttribute('id');
+      if (loginBtn) loginBtn.style.display = 'none';
+      if (accountWrapper) {
+        accountWrapper.style.display = '';
+        accountName.textContent = name;
+      }
     } else {
-      loginBtn.textContent = 'Se connecter';
-      loginBtn.style.cursor = 'pointer';
-      loginBtn.setAttribute('id', 'login-btn');
+      if (loginBtn) loginBtn.style.display = '';
+      if (accountWrapper) accountWrapper.style.display = 'none';
     }
   }
 
@@ -397,6 +399,31 @@ class GoodLegalDesktop extends HTMLElement {
       margin-top: 8px; border-top: 1px dashed rgba(11,28,77,0.1); padding-top: 8px;
     }
 
+    /* ===== ACCOUNT MENU ===== */
+    #account-menu-wrapper { position: relative; }
+    #account-btn {
+      color: rgba(255,255,255,0.85); font-family: 'Space Mono', monospace; font-size: 12px;
+      cursor: pointer; padding: 2px 8px; border: 1px solid transparent; transition: all 0.15s;
+      background: none; display: flex; align-items: center; gap: 6px;
+    }
+    #account-btn:hover { color: #fff; border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); }
+    #account-btn .account-arrow { font-size: 8px; opacity: 0.6; }
+    #account-dropdown {
+      position: absolute; top: 100%; right: 0; margin-top: 4px;
+      background: #FFFFFF; border: 2px solid #0B1C4D; box-shadow: 3px 3px 0 #0B1C4D;
+      min-width: 200px; z-index: 300; display: none;
+      font-family: 'Space Mono', monospace;
+    }
+    #account-dropdown.open { display: block; }
+    .account-dropdown-item {
+      display: flex; align-items: center; gap: 10px; padding: 8px 14px;
+      font-size: 12px; color: #0B1C4D; cursor: pointer; text-decoration: none;
+      transition: background 0.1s;
+    }
+    .account-dropdown-item:hover { background: #0B1C4D; color: white; }
+    .account-dropdown-item .item-icon { font-size: 16px; }
+    .account-dropdown-sep { height: 1px; background: #ddd; margin: 4px 8px; }
+
     /* ===== TOOLTIP ===== */
     .retro-tooltip {
       position: absolute; background: #FFFFCC; border: 1px solid #000;
@@ -462,6 +489,10 @@ class GoodLegalDesktop extends HTMLElement {
         background: #4ECDC4; color: #0B1C4D;
       }
       #clock { font-size: 15px; padding: 0; background: transparent; border: none; color: rgba(255,255,255,0.8); }
+
+      #account-btn { font-size: 10px; padding: 2px 6px; }
+      #account-dropdown { min-width: 180px; }
+      .account-dropdown-item { font-size: 11px; padding: 7px 12px; }
 
       #desktop {
         height: auto; min-height: calc(100vh - 44px - 80px);
@@ -646,6 +677,15 @@ class GoodLegalDesktop extends HTMLElement {
         <div id="taskbar-right">
           <a href="https://www.goodlegal.fr/a-propos" class="taskbar-link" target="_top">A propos</a>
           <a class="taskbar-link" id="login-btn" style="cursor:pointer">Se connecter</a>
+          <div id="account-menu-wrapper" style="display:none">
+            <button id="account-btn"><span id="account-name"></span> <span class="account-arrow">&#9660;</span></button>
+            <div id="account-dropdown">
+              <a class="account-dropdown-item" href="https://www.goodlegal.fr/account/my-account" target="_top"><span class="item-icon">&#128100;</span> Mon compte</a>
+              <a class="account-dropdown-item" href="https://www.goodlegal.fr/account/my-subscriptions" target="_top"><span class="item-icon">&#128179;</span> Mes Abonnements</a>
+              <div class="account-dropdown-sep"></div>
+              <a class="account-dropdown-item" id="logout-btn" style="cursor:pointer"><span class="item-icon">&#128682;</span> Se deconnecter</a>
+            </div>
+          </div>
           <a href="https://www.goodlegal.fr/plans-pricing" class="taskbar-link highlight" id="taskbar-pricing" target="_top">Passer en illimite</a>
           <div id="clock">--:--</div>
         </div>
@@ -1053,6 +1093,29 @@ class GoodLegalDesktop extends HTMLElement {
     if (loginBtn) {
       loginBtn.addEventListener('click', () => {
         this.dispatchEvent(new CustomEvent('login-click'));
+      });
+    }
+
+    // Account dropdown toggle
+    const accountBtn = this._$('#account-btn');
+    const accountDropdown = this._$('#account-dropdown');
+    if (accountBtn && accountDropdown) {
+      accountBtn.addEventListener('click', () => {
+        accountDropdown.classList.toggle('open');
+      });
+      this.shadowRoot.addEventListener('click', (e) => {
+        if (!e.target.closest('#account-menu-wrapper')) {
+          accountDropdown.classList.remove('open');
+        }
+      });
+    }
+
+    // Logout button
+    const logoutBtn = this._$('#logout-btn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        accountDropdown.classList.remove('open');
+        this.dispatchEvent(new CustomEvent('logout-click'));
       });
     }
   }
