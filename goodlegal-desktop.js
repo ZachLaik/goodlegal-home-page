@@ -52,6 +52,7 @@ class GoodLegalDesktop extends HTMLElement {
     this._initKonami();
     this._initLogin();
     this._applyPaidUser();
+    this._applyUserName(this.getAttribute('user-name'));
   }
 
   attributeChangedCallback(name, oldVal, newVal) {
@@ -72,9 +73,11 @@ class GoodLegalDesktop extends HTMLElement {
   }
 
   _applyUserName(name) {
+    console.log("[goodlegal-desktop] _applyUserName called with:", name);
     const loginBtn = this._$('#login-btn');
     const accountWrapper = this._$('#account-menu-wrapper');
     const accountName = this._$('#account-name');
+    console.log("[goodlegal-desktop] loginBtn:", !!loginBtn, "accountWrapper:", !!accountWrapper);
     if (name) {
       if (loginBtn) loginBtn.style.display = 'none';
       if (accountWrapper) {
